@@ -27,16 +27,13 @@ local core = require("clackity.core")
 M.start_window = function()
   local float = create_window()
   local words = core.get_words(2)
-  vim.api.nvim_buf_set_lines(float.buf, 0, -1, false, words)
+  local bufnr = float.buf
+
+  vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, words)
+
   vim.keymap.set("n", "q", function()
-    M.cleanup(float.win)
-  end)
-end
-
-M.cleanup = function(win)
-  vim.keymap.del("n", "q", { 0 })
-
-  vim.api.nvim_win_close(win, true)
+    vim.api.nvim_win_close(float.win, true)
+  end, { silent = true, buffer = bufnr })
 end
 
 return M
