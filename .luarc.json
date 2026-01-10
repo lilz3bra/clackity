@@ -1,0 +1,11 @@
+{
+  "runtime.version": "LuaJIT",
+  "workspace.library": [
+    "${3rd}/luv/library",
+    "${3rd}/busted/library"
+  ],
+  "workspace.checkThirdParty": false,
+  "diagnostics.globals": [
+    "vim"
+  ]
+}
