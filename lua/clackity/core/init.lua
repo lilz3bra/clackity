@@ -8,4 +8,11 @@ function M.get_words(qty)
   return w
 end
 
+function M.bind_keys(buf)
+  local keybind = require("clackity.core.keymap")
+  keybind.load_keys(buf)
+end
+
+local state = require("clackity.core.state")
+
 return M
