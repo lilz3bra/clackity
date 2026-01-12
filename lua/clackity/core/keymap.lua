@@ -6,9 +6,7 @@ M.load_keys = function(f)
   for i = 1, #keys do
     local char = keys:sub(i, i)
     vim.keymap.set("n", char, function()
-      print("pressed: ", char)
       M.move_cursor(f.win)
-      print(f.buf)
     end, { buffer = f.buf, nowait = true, noremap = true, silent = true })
   end
 end
@@ -18,8 +16,6 @@ M.move_cursor = function(win)
   local row = cursor[1]
   local col = cursor[2]
 
-  print(row, col, state.line_lenght)
-
   -- Check the lenght of the line here for the time being, should be a better place to do this?
   -- This just updates the state on the first run.
   if col == 0 and row == 1 then
@@ -28,7 +24,6 @@ M.move_cursor = function(win)
   end
 
   col = col + 1
-  print(row, col, state.line_lenght)
   if col > state.line_lenght then
     col = 0
     row = row + 1
