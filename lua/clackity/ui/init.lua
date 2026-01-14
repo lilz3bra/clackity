@@ -1,40 +1,38 @@
 local M = {}
 
-M.start_window = function()
-  local window = require("clackity.ui.window")
-  local core = require("clackity.core")
-  local highlight = require("clackity.ui.highlight")
+local window = require("clackity.ui.window")
+local highlight = require("clackity.ui.highlight")
 
-  local float = window.create_window()
-  local words = core.get_words(4)
-  local bufnr = float.buf
-
+function M.create_main_window()
   highlight.setup()
-  window.buffer_keys_fix(bufnr)
-  core.bind_keys(float)
 
-  M.load_words(bufnr, words)
+  local obj = window.create_window()
 
-  for i, v in pairs(words) do
-    highlight.paint(bufnr, "ClackityFuture", i - 1, 0, #v)
-  end
+  window.buffer_keys_fix(obj.buf)
   window.set_fake_cursor()
+  vim.api.nvim_set_option_value("virtualedit", "all", { scope = "local", win = obj.wir })
 
-  vim.api.nvim_set_option_value("virtualedit", "all", { scope = "local", win = float.win })
-
-  vim.keymap.set("n", "<C-r>", function()
-    local new_words = core.get_words(4)
-    M.load_words(bufnr, new_words)
-  end, { silent = true, buffer = bufnr })
-
-  vim.keymap.set("n", "<C-q>", function()
-    vim.api.nvim_win_close(float.win, true)
-    window.restore_cursor()
-  end, { silent = true, buffer = bufnr })
+  return obj
 end
 
-M.load_words = function(buff, words)
-  vim.api.nvim_buf_set_lines(buff, 0, -1, false, words)
+function M.render_lines(buf, words)
+  vim.api.nvim_buf_set_lines(buf, 0, -1, false, words)
+
+  for i, line in ipairs(words) do
+    highlight.paint(buf, "ClackityFuture", i - 1, 0, #line)
+  end
+end
+
+function M.mark_correct(buf, row, col)
+  highlight.paint(buf, "ClackityCorrect", row, col, col + 1)
+end
+
+function M.mark_error(buf, row, col)
+  highlight.paint(buf, "ClackityError", row, col, col + 1)
+end
+
+function M.move_cursor(win, row, col)
+  pcall(vim.api.nvim_win_set_cursor, win, { row + 1, col })
 end
 
 return M

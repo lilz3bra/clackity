@@ -1,10 +1,11 @@
 local M = {}
 
-M.setup = function() end
-
-local ui = require("clackity.ui")
-
-M.Start = function()
-  ui.start_window()
+function M.setup()
+  -- User config goes in here
 end
+
+function M.Start()
+  require("clackity.core").start_plugin()
+end
+
 return M

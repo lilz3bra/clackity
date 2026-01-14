@@ -1,7 +1,16 @@
 local M = {}
 
 --- @type string[]
-local wordlist = { "the", "quick", "brown", "fox", "jumped", "over", "lazy", "dog" }
+local wordlist = {
+  "the",
+  "quick",
+  "brown",
+  "fox",
+  "jumped",
+  "over",
+  "lazy",
+  "dog",
+}
 
 local get_random_indices = function(qty, max)
   local indices = {}

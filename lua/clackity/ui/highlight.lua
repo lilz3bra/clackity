@@ -2,14 +2,30 @@ local M = {}
 
 M.ns_id = vim.api.nvim_create_namespace("ClackityHighlights")
 
-function M.setup()
-  vim.api.nvim_set_hl(0, "ClackityFuture", { link = "Comment", default = true })
-  vim.api.nvim_set_hl(0, "ClackityCorrect", { link = "Normal", default = true })
-  vim.api.nvim_set_hl(0, "ClackityError", { link = "Error", default = true })
+local default_colors = {
+  future = { link = "Comment", default = true },
+  correct = { link = "Normal", default = true },
+  error = { link = "Error", default = true },
+}
+
+function M.setup(opts)
+  opts = opts or {}
+
+  local future_opts = opts.future or default_colors.future
+  vim.api.nvim_set_hl(0, "ClackityFuture", future_opts)
+  local correct_opts = opts.correct or default_colors.correct
+  vim.api.nvim_set_hl(0, "ClackityCorrect", correct_opts)
+  local error_opts = opts.error or default_colors.error
+  vim.api.nvim_set_hl(0, "ClackityError", error_opts)
 end
 
 function M.paint(buf, group, line, col_start, col_end)
-  vim.api.nvim_buf_add_highlight(buf, M.ns_id, group, line, col_start, col_end)
+  vim.api.nvim_buf_clear_namespace(buf, M.ns_id, line, col_start, col_end)
+  print("Painting: ", vim.api.nvim_get_hl(0, { name = group, link = false }))
+  vim.hl.range(buf, M.ns_id, group, { line, col_start }, { line, col_end }, {
+    priority = 200,
+    strict = false,
+  })
 end
 
 function M.clear(buf)
