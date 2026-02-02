@@ -20,8 +20,6 @@ function M.setup(opts)
 end
 
 function M.paint(buf, group, line, col_start, col_end)
-  vim.api.nvim_buf_clear_namespace(buf, M.ns_id, line, col_start, col_end)
-  print("Painting: ", vim.api.nvim_get_hl(0, { name = group, link = false }))
   vim.hl.range(buf, M.ns_id, group, { line, col_start }, { line, col_end }, {
     priority = 200,
     strict = false,

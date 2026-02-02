@@ -10,7 +10,7 @@ function M.create_main_window()
 
   window.buffer_keys_fix(obj.buf)
   window.set_fake_cursor()
-  vim.api.nvim_set_option_value("virtualedit", "all", { scope = "local", win = obj.wir })
+  vim.api.nvim_set_option_value("virtualedit", "all", { scope = "local", win = obj.win })
 
   return obj
 end
