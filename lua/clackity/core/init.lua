@@ -88,7 +88,7 @@ function M.post_lesson()
     "   WPM:  ??          ",
     "   Acc:  ??%         ",
     "",
-    " [r] Retry  [m] Menu "
+    " [r] Retry  [m] Menu [q] Quit"
   }
   ui.render_main(state.bufnr, stats_text)
   input.attach_post_lesson(state.bufnr)
@@ -103,6 +103,7 @@ function M.restart_lesson()
 
   ui.render_lines(state.bufnr, words)
   ui.move_cursor(state.win_id, 0, 0)
+  input.attach_lesson(state.bufnr)
 end
 
 --- Cleanup and quit
