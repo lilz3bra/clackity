@@ -3,10 +3,13 @@ local M = {}
 local window = require("clackity.ui.window")
 local highlight = require("clackity.ui.highlight")
 
-function M.create_main_window()
+function M.create_window()
   highlight.setup()
 
   local obj = window.create_window()
+
+  vim.api.nvim_set_option_value("buftype", "nofile", { buf = obj.buf })
+  vim.api.nvim_set_option_value("swapfile", false, { buf = obj.buf })
 
   window.buffer_keys_fix(obj.buf)
   window.set_fake_cursor()
@@ -15,8 +18,20 @@ function M.create_main_window()
   return obj
 end
 
+function M.render_main(buf, lines)
+  vim.api.nvim_set_option_value("modifiable", true, { buf = buf })
+  vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
+  vim.api.nvim_set_option_value("modifiable", false, { buf = buf })
+
+  highlight.clear(buf)
+end
+
 function M.render_lines(buf, words)
+  vim.api.nvim_set_option_value("modifiable", true, { buf = buf })
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, words)
+  vim.api.nvim_set_option_value("modifiable", false, { buf = buf })
+
+  highlight.clear(buf)
 
   for i, line in ipairs(words) do
     highlight.paint(buf, "ClackityFuture", i - 1, 0, #line)
