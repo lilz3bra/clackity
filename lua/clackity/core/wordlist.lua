@@ -10,7 +10,6 @@ local wordlist = {
   "over",
   "lazy",
   "dog",
-
   "the",
   "and",
   "have",
@@ -244,6 +243,34 @@ function M.get_random_words(qty)
     end
   end
   return words
+end
+
+--- Pack words into lines based on window max_width
+--- @param words string[]: The wordlist to pack
+--- @param max_width number: The width to wrap at
+--- @return string[]
+function M.wrap_words(words, max_width)
+  local lines = {}
+  local current_line = ""
+
+  for _, word in ipairs(words) do
+    if #current_line + #word + 1 > max_width then
+      table.insert(lines, current_line)
+      current_line = word
+    else
+      if #current_line > 0 then
+        current_line = current_line .. " " .. word
+      else
+        current_line = word
+      end
+    end
+  end
+
+  if #current_line > 0 then
+    table.insert(lines, current_line)
+  end
+
+  return lines
 end
 
 return M

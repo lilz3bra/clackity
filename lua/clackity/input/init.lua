@@ -1,6 +1,6 @@
 local M = {}
 
-local keys = "abcdefghijklmnopqrstuvwxyz"
+local keys = "abcdefghijklmnopqrstuvwxyz "
 
 
 --- Safely removes keymaps only if they currently exist in the buffer

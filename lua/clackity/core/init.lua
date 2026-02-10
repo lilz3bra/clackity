@@ -35,11 +35,11 @@ end
 --- Launch a new lesson window
 function M.start_lesson()
   state.reset()
-
+  local win_width = vim.api.nvim_win_get_width(state.win_id) - 4
   local words = word_list.get_random_words(6)
-  state.target_lines = words
-
-  ui.render_lines(state.bufnr, words)
+  local lines = word_list.wrap_words(words, win_width)
+  state.target_lines = lines
+  ui.render_lines(state.bufnr, lines)
 
   input.attach_lesson(state.bufnr)
 end
@@ -97,11 +97,12 @@ end
 --- Restart a lesson
 function M.restart_lesson()
   state.reset()
+  local win_width = vim.api.nvim_win_get_width(state.win_id) - 4
   local words = word_list.get_random_words(6)
+  local lines = word_list.wrap_words(words, win_width)
+  state.target_lines = lines
 
-  state.target_lines = words
-
-  ui.render_lines(state.bufnr, words)
+  ui.render_lines(state.bufnr, lines)
   ui.move_cursor(state.win_id, 0, 0)
   input.attach_lesson(state.bufnr)
 end
