@@ -4,6 +4,9 @@ local M = {
   current_col = 0,
   current_row = 0,
   target_lines = {},
+  start_time = nil,
+  last_key_time = nil,
+  stats_log = {}
 }
 
 function M.reset()
