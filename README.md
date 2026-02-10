@@ -1,12 +1,14 @@
 # ⌨️ clackity.nvim
 
-A minimalist typing tutor that lives inside your editor.
-
 clackity.nvim is a fast, distraction-free typing practice plugin for Neovim. It is designed to be lightweight, using floating windows and native key bindings to provide a seamless "Neovim-native" experience.
 
 ## ✨ Features
 
     Stats Tracking: Persists WPM and accuracy history using a local DB.
+
+    Detailed stats: Track each keytroke, word, session, and see where your weak spots are.
+
+    Useful graphs: Each stat can be viewed as a graph to help you understand your progress.
 
     The "Neovim Way": No complex menus—just simple, modal keymaps.
 
@@ -63,15 +65,17 @@ end, {})
 
     [x] Menu Dashboard
 
-    [-] Word wrapping & Layout engine
+    [x] Word wrapping & Layout engine
 
     [ ] WPM / Accuracy Calculation implementation
+
+    [ ] Post lesson details
 
     [ ] Custom word lists (code snippets, prose)
 
     [ ] Ghost text (visualize cursor position better)
 
-    [ ] User configuration
+    [-] User configuration
 
     [ ] Custom rules
 
@@ -81,17 +85,7 @@ end, {})
 
 ## 🤝 Contributing
 
-Pull requests are welcome! Please ensure that any logic changes maintain the "modal" philosophy of the plugin (avoiding nvim-ui-select menus in favor of keymaps).
-
-    Fork the repo
-
-    Create your feature branch (git checkout -b feature/amazing-feature)
-
-    Commit your changes (git commit -m 'Add some amazing feature')
-
-    Push to the branch (git push origin feature/amazing-feature)
-
-    Open a Pull Request
+For the time being I won't be accepting any PRs. This is a personal project and I want to keep it that way. Once I am satisfied with the plugin (or get bored) I will update this.
 
 Enjoy typing! 🚀
 
