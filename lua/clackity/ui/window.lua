@@ -56,7 +56,6 @@ end
 local original_cursor = ""
 
 M.restore_cursor = function()
-  print("restoring cursor")
   vim.opt.guicursor = original_cursor
 end
 
