@@ -1,7 +1,9 @@
 local M = {}
 
-function M.setup()
-  -- User config goes in here
+local config = require("clackity.core.config")
+
+function M.setup(opts)
+  config.setup(opts)
 end
 
 function M.Start()
