@@ -48,6 +48,11 @@ function M.start_lesson()
   input.attach_lesson(state.bufnr)
 end
 
+--- Get current time
+local function now()
+  return vim.loop.hrtime() / 1e6
+end
+
 --- Input handler callback
 function M.handle_input(key)
   local line_idx = state.current_row
@@ -78,7 +83,7 @@ function M.handle_input(key)
 
   state.current_col = state.current_col + 1
 
-  --- @type Clackity.lesson_log
+  --- @type Clackity.state.lesson_log
   local log = {
     target = target_char,
     actual = key,
@@ -86,6 +91,7 @@ function M.handle_input(key)
     status = status
   }
   table.insert(state.stats_log, log)
+  print(log.latency)
   state.last_key_time = current_time
 
   if state.current_col >= #target_line then
@@ -94,7 +100,6 @@ function M.handle_input(key)
 
     local next_line = state.target_lines[state.current_row + 1]
     if not next_line then
-      -- TODO: implement post lesson screen
       M.post_lesson()
       return
     end
@@ -105,12 +110,17 @@ end
 
 --- Show the end of lesson screen
 function M.post_lesson()
+  --- @type Clackity.stats.lesson
+  local lesson_stats = stats.lesson_stats(state.stats_log)
   local stats_text = {
     "",
     "  LESSON COMPLETE  ",
     "",
-    "   WPM:  ??          ",
-    "   Acc:  ??%         ",
+    "   Keys:   " .. lesson_stats.total_chars,
+    "   Errors: " .. lesson_stats.errors,
+    "   WPM:    " .. lesson_stats.wpm,
+    "   Time:   " .. lesson_stats.time .. " seconds",
+    "   Acc:    " .. lesson_stats.accuracy .. " %",
     "",
     " [r] Retry  [m] Menu [q] Quit"
   }
@@ -130,11 +140,6 @@ function M.restart_lesson()
   ui.render_lines(state.bufnr, lines)
   ui.move_cursor(state.win_id, 0, 0)
   input.attach_lesson(state.bufnr)
-end
-
---- Get current time
-local function now()
-  return vim.loop.hrtime() / 1e6
 end
 
 --- Cleanup and quit
