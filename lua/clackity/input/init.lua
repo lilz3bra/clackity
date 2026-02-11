@@ -44,15 +44,15 @@ function M.attach_lesson(bufnr)
   end
 
   -- Lesson control
-  vim.keymap.set("n", "C-q", require("clackity.core").quit, { buffer = bufnr, silent = true })
-  vim.keymap.set("n", "C-r", require("clackity.core").restart_lesson, { buffer = bufnr, silent = true })
+  vim.keymap.set("n", "<C-q>", require("clackity.core").quit, { buffer = bufnr, silent = true })
+  vim.keymap.set("n", "<C-r>", require("clackity.core").restart_lesson, { buffer = bufnr, silent = true })
   vim.keymap.set("n", "<Esc>", require("clackity.core").show_menu, { buffer = bufnr, silent = true })
 end
 
 function M.attach_main(bufnr)
   smart_clear(bufnr, keys)
 
-  smart_clear(bufnr, { "C-r" })
+  smart_clear(bufnr, { "<C-r>" })
   local opts = { buffer = bufnr, nowait = true, noremap = true, silent = true }
 
   vim.keymap.set("n", "<CR>", require("clackity.core").start_lesson, opts)
