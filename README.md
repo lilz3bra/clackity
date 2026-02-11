@@ -1,6 +1,7 @@
 # ⌨️ clackity.nvim
 
-clackity.nvim is a fast, distraction-free typing practice plugin for Neovim. It is designed to be lightweight, using floating windows and native key bindings to provide a seamless "Neovim-native" experience.
+Clackity is a fast, distraction-free typing practice plugin for Neovim. It is built to provide the best user experience possible.
+It uses an "emulated" insert mode to make possible things like disabling fixing mistakes, stop on error, and possibly many more to come.
 
 ## ✨ Features
 
@@ -12,7 +13,9 @@ clackity.nvim is a fast, distraction-free typing practice plugin for Neovim. It 
 
     The "Neovim Way": No complex menus—just simple, modal keymaps.
 
-    Configurable: Make it to be whatever you want it to be.
+    Customizable: Make it to be whatever you want it to be.
+    
+    100% offline: Install and start typing, no need for an account.
 
 ## ⚡ Requirements
 
@@ -67,25 +70,50 @@ end, {})
 
     [x] Word wrapping & Layout engine
 
-    [ ] WPM / Accuracy Calculation implementation
+    [x] WPM / Accuracy Calculation implementation
 
-    [ ] Post lesson details
+    [x] Post lesson details
 
-    [ ] Custom word lists (code snippets, prose)
+    [ ] Results persistence
 
-    [ ] Ghost text (visualize cursor position better)
+    [ ] Stats panel
 
-    [-] User configuration
+    [ ] Stats graphs
+
+    [ ] Per-key statistics
+
+    [ ] Keyboard heatmap
+
+    [ ] Different layout/distribution support
+
+    [ ] RPG mode (unlock keys by reaching a certain speed)
+
+    [ ] More rules
+        [ ] Stop on error
+        [ ] Fix errors
+        [ ] Spacing errors
+        [ ] Skip word
+    
+    [ ] Wordlist rules (case, punctuation, etc)
+
+    [ ] Wordlist generation and filtering
+
+    [ ] More languages
+
+    [ ] More wordlists (code snippets, quotes, etc)
 
     [ ] Custom rules
 
+    [ ] Custom word lists 
+
 ## 🪲 Known bugs
-- If the plugin crashes, cursor and keybindings will be messed up
-- Performance seems to be impacted for some reason (specially when saving)
+- If the plugin crashes, cursor and keybindings will be messed up until neovim is restarted
+- Backspace is not handled right now and messes (visually) with the cursor position
 
 ## 🤝 Contributing
 
-For the time being I won't be accepting any PRs. This is a personal project and I want to keep it that way. Once I am satisfied with the plugin (or get bored) I will update this.
+For the time being I won't be accepting any PRs. 
+This is a personal project and I want to keep it that way. Once I am satisfied with the plugin (or get bored) I will update this.
 
 Enjoy typing! 🚀
 
