@@ -1,5 +1,7 @@
 # ⌨️ clackity.nvim
 
+![Neovim Version](https://img.shields.io/badge/Neovim-0.10+-blueviolet.svg)
+
 Clackity is a fast, distraction-free typing practice plugin for Neovim. It is built to provide the best user experience possible.
 It uses an "emulated" insert mode to make possible things like disabling fixing mistakes, stop on error, and possibly many more to come.
 
@@ -19,16 +21,13 @@ It uses an "emulated" insert mode to make possible things like disabling fixing 
 
 ## ⚡ Requirements
 
-    Neovim >= 0.9.0
+    Neovim >= 0.10.0
 
 ## 📦 Installation
 lazy.nvim
 ```Lua
 {
     "lilz3bra/clackity.nvim",
-    dependencies = {
-        "kkharji/sqlite.lua", 
-    },
     config = function()
         require("clackity").setup({})
     end,
@@ -39,7 +38,6 @@ packer.nvim
 ```Lua
 use {
     "lilz3bra/clackity.nvim",
-    requires = "kkharji/sqlite.lua",
     config = function()
         require("clackity").setup()
     end
