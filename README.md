@@ -22,12 +22,14 @@ It uses an "emulated" insert mode to make possible things like disabling fixing 
 ## ⚡ Requirements
 
     Neovim >= 0.10.0
+    kkharji/sqlite.lua installed in order to save the results
 
 ## 📦 Installation
 lazy.nvim
 ```Lua
 {
     "lilz3bra/clackity.nvim",
+    dependencies = { "kkharji/sqlite.lua" }
     config = function()
         require("clackity").setup({})
     end,
@@ -38,6 +40,7 @@ packer.nvim
 ```Lua
 use {
     "lilz3bra/clackity.nvim",
+    requires = { 'kkharji/sqlite.lua' },
     config = function()
         require("clackity").setup()
     end
