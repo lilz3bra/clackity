@@ -1,11 +1,12 @@
+--- @type Clackity.state
 local M = {
   bufnr = nil,
   win_id = nil,
   current_col = 0,
   current_row = 0,
   target_lines = {},
-  start_time = nil,
-  last_key_time = nil,
+  start_time = 0,
+  last_key_time = 0,
   stats_log = {}
 }
 
