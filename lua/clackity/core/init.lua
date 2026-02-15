@@ -116,11 +116,12 @@ function M.post_lesson()
     "",
     "  LESSON COMPLETE  ",
     "",
-    "   Keys:   " .. lesson_stats.total_chars,
-    "   Errors: " .. lesson_stats.errors,
-    "   WPM:    " .. lesson_stats.wpm,
-    "   Time:   " .. lesson_stats.time .. " seconds",
-    "   Acc:    " .. lesson_stats.accuracy .. " %",
+    "   Keys:    " .. lesson_stats.total_chars,
+    "   Errors:  " .. lesson_stats.errors,
+    "   WPM:     " .. lesson_stats.wpm,
+    "   Time:    " .. lesson_stats.time .. " seconds",
+    "   Acc:     " .. lesson_stats.accuracy .. " %",
+    "   Consist: " .. lesson_stats.consistency .. " %",
     "",
     " [r] Retry  [m] Menu [q] Quit"
   }

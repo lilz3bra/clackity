@@ -13,6 +13,7 @@
 --- @field accuracy number
 --- @field time number
 --- @field keys table
+--- @field consistency number
 
 --- @class Clackity.state
 --- @field bufnr number | nil
