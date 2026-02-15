@@ -6,7 +6,7 @@ local state = require("clackity.core.state")
 local input = require("clackity.input")
 local config = require("clackity.core.config")
 local stats = require("clackity.stats")
-
+local db = require("clackity.database")
 
 --- Entry point
 function M.start_plugin()
@@ -126,6 +126,14 @@ function M.post_lesson()
   }
   ui.render_main(state.bufnr, stats_text)
   input.attach_post_lesson(state.bufnr)
+  --- @type Clackity.database.lesson
+  local tbl_data = {
+    list_name = "default",
+    time = lesson_stats.time,
+    errors = lesson_stats.errors,
+    keystrokes = lesson_stats.total_chars
+  }
+  db.save_lesson(tbl_data)
 end
 
 --- Restart a lesson

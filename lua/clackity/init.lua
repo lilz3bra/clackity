@@ -1,6 +1,7 @@
 local M = {}
 
 local config = require("clackity.core.config")
+local db = require("clackity.database")
 
 function M.setup(opts)
   local has_sqlite, sqlite = pcall(require, "sqlite")
@@ -9,11 +10,11 @@ function M.setup(opts)
       vim.log.levels.Error)
     return
   end
-
   config.setup(opts)
 end
 
 function M.Start()
+  db.init()
   require("clackity.core").start_plugin()
 end
 
