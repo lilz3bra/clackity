@@ -255,6 +255,7 @@ function M.wrap_words(words, max_width)
 
   for _, word in ipairs(words) do
     if #current_line + #word + 1 > max_width then
+      current_line = current_line .. " "
       table.insert(lines, current_line)
       current_line = word
     else
