@@ -83,7 +83,7 @@ function M.handle_input(key)
 
   state.current_col = state.current_col + 1
 
-  --- @type Clackity.state.lesson_log
+  --- @type Clackity.state.lesson_event
   local log = {
     target = target_char,
     actual = key,
@@ -91,7 +91,6 @@ function M.handle_input(key)
     status = status
   }
   table.insert(state.stats_log, log)
-  print(log.latency)
   state.last_key_time = current_time
 
   if state.current_col >= #target_line then
