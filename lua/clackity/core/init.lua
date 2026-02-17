@@ -131,9 +131,10 @@ function M.post_lesson()
     list_name = "default",
     time = lesson_stats.time,
     errors = lesson_stats.errors,
-    keystrokes = lesson_stats.total_chars
+    characters = lesson_stats.total_chars,
+    square_time = lesson_stats.square_time
   }
-  db.save_lesson(tbl_data)
+  db.save_lesson(tbl_data, lesson_stats.keys)
 end
 
 --- Restart a lesson

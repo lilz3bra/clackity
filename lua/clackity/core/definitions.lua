@@ -4,8 +4,15 @@
 --- @field wpm number
 --- @field accuracy number
 --- @field time number
---- @field keys table
+--- @field square_time number
+--- @field keys table<string, Clackity.stats.key_stats>
 --- @field consistency number
+
+--- @class Clackity.stats.key_stats
+--- @field appearances number
+--- @field errors number
+--- @field time number
+--- @field square_time number
 
 --- @alias KeyStatus "correct"|"error"
 
@@ -27,6 +34,15 @@
 
 --- @class Clackity.database.lesson
 --- @field list_name string
---- @field keystrokes number
+--- @field characters number
 --- @field errors number
 --- @field time number
+--- @field square_time number
+
+--- @class Clackity.database.lesson_key
+--- @field lesson_id number
+--- @field char string
+--- @field appearances number
+--- @field errors number
+--- @field time number
+--- @field square_time number
