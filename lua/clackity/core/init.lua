@@ -21,15 +21,7 @@ end
 --- Launch the main menu
 function M.show_menu()
   state.reset()
-  ui.render_main(state.bufnr, {
-    "",
-    "   CLACKITY TYPE   ",
-    "   -------------   ",
-    "",
-    " [Enter] Start Lesson",
-    " [s]     Stats       ",
-    " [q]     Quit        "
-  })
+  ui.draw_menu(state.bufnr)
 
   -- Switch input mode to Menu
   input.attach_main(state.bufnr)
@@ -39,12 +31,12 @@ end
 function M.start_lesson()
   state.reset()
   local word_count = config.values.word_count
-  local win_width = vim.api.nvim_win_get_width(state.win_id) - 4
   local words = word_list.get_random_words(word_count)
+  local win_width = ui.get_content_width(state.win_id)
   local lines = word_list.wrap_words(words, win_width)
   state.target_lines = lines
   ui.render_lines(state.bufnr, lines)
-
+  ui.move_cursor(state.win_id, 0, 0)
   input.attach_lesson(state.bufnr)
 end
 
@@ -111,20 +103,9 @@ end
 function M.post_lesson()
   --- @type Clackity.stats.lesson
   local lesson_stats = stats.lesson_stats(state.stats_log)
-  local stats_text = {
-    "",
-    "  LESSON COMPLETE  ",
-    "",
-    "   Keys:    " .. lesson_stats.total_chars,
-    "   Errors:  " .. lesson_stats.errors,
-    "   WPM:     " .. lesson_stats.wpm,
-    "   Time:    " .. lesson_stats.time .. " seconds",
-    "   Acc:     " .. lesson_stats.accuracy .. " %",
-    "   Consist: " .. lesson_stats.consistency .. " %",
-    "",
-    " [r] Retry  [m] Menu [q] Quit"
-  }
-  ui.render_main(state.bufnr, stats_text)
+
+  ui.draw_post_lesson(state.bufnr, lesson_stats)
+
   input.attach_post_lesson(state.bufnr)
   --- @type Clackity.database.lesson
   local tbl_data = {
@@ -137,26 +118,9 @@ function M.post_lesson()
   db.save_lesson(tbl_data, lesson_stats.keys)
 end
 
---- Restart a lesson
-function M.restart_lesson()
-  state.reset()
-  local word_count = config.values.word_count
-  local win_width = vim.api.nvim_win_get_width(state.win_id) - 4
-  local words = word_list.get_random_words(word_count)
-  local lines = word_list.wrap_words(words, win_width)
-  state.target_lines = lines
-
-  ui.render_lines(state.bufnr, lines)
-  ui.move_cursor(state.win_id, 0, 0)
-  input.attach_lesson(state.bufnr)
-end
-
 --- Cleanup and quit
 function M.quit()
-  if state.win_id and vim.api.nvim_win_is_valid(state.win_id) then
-    vim.api.nvim_win_close(state.win_id, true)
-  end
-  require("clackity.ui.window").restore_cursor()
+  ui.close(state.win_id)
 end
 
 return M

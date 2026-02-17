@@ -18,6 +18,35 @@ function M.create_window()
   return obj
 end
 
+function M.draw_menu(bufnr)
+  M.render_main(bufnr, {
+    "",
+    "   CLACKITY TYPE   ",
+    "   -------------   ",
+    "",
+    " [Enter] Start Lesson",
+    " [s]     Stats       ",
+    " [q]     Quit        "
+  })
+end
+
+function M.draw_post_lesson(bufnr, stats)
+  local stats_text = {
+    "",
+    "  LESSON COMPLETE  ",
+    "",
+    "   Keys:    " .. stats.total_chars,
+    "   Errors:  " .. stats.errors,
+    "   WPM:     " .. stats.wpm,
+    "   Time:    " .. stats.time .. " seconds",
+    "   Acc:     " .. stats.accuracy .. " %",
+    "   Consist: " .. stats.consistency .. " %",
+    "",
+    " [r] Retry  [m] Menu [q] Quit"
+  }
+  M.render_main(bufnr, stats_text)
+end
+
 function M.render_main(buf, lines)
   vim.api.nvim_set_option_value("modifiable", true, { buf = buf })
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
@@ -48,6 +77,17 @@ end
 
 function M.move_cursor(win, row, col)
   pcall(vim.api.nvim_win_set_cursor, win, { row + 1, col })
+end
+
+function M.close(win_id)
+  if win_id and vim.api.nvim_win_is_valid(win_id) then
+    vim.api.nvim_win_close(win_id, true)
+  end
+  window.restore_cursor()
+end
+
+function M.get_content_width(win_id)
+  return vim.api.nvim_win_get_width(win_id) - 4
 end
 
 return M

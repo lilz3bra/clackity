@@ -45,7 +45,7 @@ function M.attach_lesson(bufnr)
 
   -- Lesson control
   vim.keymap.set("n", "<C-q>", require("clackity.core").quit, { buffer = bufnr, silent = true })
-  vim.keymap.set("n", "<C-r>", require("clackity.core").restart_lesson, { buffer = bufnr, silent = true })
+  vim.keymap.set("n", "<C-r>", require("clackity.core").start_lesson, { buffer = bufnr, silent = true })
   vim.keymap.set("n", "<Esc>", require("clackity.core").show_menu, { buffer = bufnr, silent = true })
 end
 
@@ -68,7 +68,7 @@ function M.attach_post_lesson(bufnr)
 
   local opts = { buffer = bufnr, nowait = true, noremap = true, silent = true }
 
-  vim.keymap.set("n", "r", require("clackity.core").restart_lesson, opts)
+  vim.keymap.set("n", "r", require("clackity.core").start_lesson, opts)
   vim.keymap.set("n", "q", require("clackity.core").quit, opts)
   vim.keymap.set("n", "m", require("clackity.core").show_menu, opts)
 end
