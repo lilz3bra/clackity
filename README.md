@@ -75,7 +75,15 @@ end, {})
 
     [x] Post lesson details
 
-    [ ] Results persistence
+    [x] Results persistence
+
+    [ ] Wordlists and list config
+
+    [ ] Rules (some)
+        [ ] Stop on error
+        [ ] Fix errors
+        [ ] Spacing errors
+        [ ] Skip word
 
     [ ] Stats panel
 
@@ -84,16 +92,14 @@ end, {})
     [ ] Per-key statistics
 
     [ ] Keyboard heatmap
+    
+    [ ] Database optimizations 
 
     [ ] Different layout/distribution support
 
     [ ] RPG mode (unlock keys by reaching a certain speed)
 
     [ ] More rules
-        [ ] Stop on error
-        [ ] Fix errors
-        [ ] Spacing errors
-        [ ] Skip word
     
     [ ] Wordlist rules (case, punctuation, etc)
 
