@@ -42,7 +42,7 @@ end
 
 --- Get current time
 local function now()
-  return vim.loop.hrtime() / 1e6
+  return math.floor(vim.uv.hrtime() / 1e6)
 end
 
 --- Input handler callback

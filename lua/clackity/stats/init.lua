@@ -63,9 +63,7 @@ function M.lesson_stats(lesson_log)
     consistency = 100
   end
 
-  time = time / 1000
-
-  wpm = (total_chars / 5) / (time / 60)
+  wpm = (total_chars / 5) / (time / 6e4)
   accuracy = (1 - errors / total_chars) * 100
 
   --- @type Clackity.stats.lesson

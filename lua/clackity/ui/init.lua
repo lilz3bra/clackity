@@ -38,7 +38,7 @@ function M.draw_post_lesson(bufnr, stats)
     "   Keys:    " .. stats.total_chars,
     "   Errors:  " .. stats.errors,
     "   WPM:     " .. stats.wpm,
-    "   Time:    " .. stats.time .. " seconds",
+    string.format("   Time:    %.1f seconds", stats.time / 1000),
     "   Acc:     " .. stats.accuracy .. " %",
     "   Consist: " .. stats.consistency .. " %",
     "",
