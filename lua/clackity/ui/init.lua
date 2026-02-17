@@ -35,12 +35,12 @@ function M.draw_post_lesson(bufnr, stats)
     "",
     "  LESSON COMPLETE  ",
     "",
-    "   Keys:    " .. stats.total_chars,
-    "   Errors:  " .. stats.errors,
-    "   WPM:     " .. stats.wpm,
+    string.format("   Keys:   %d", stats.total_chars),
+    string.format("   Errors:  %d", stats.errors),
+    string.format("   WPM:     %.1f", stats.wpm),
     string.format("   Time:    %.1f seconds", stats.time / 1000),
-    "   Acc:     " .. stats.accuracy .. " %",
-    "   Consist: " .. stats.consistency .. " %",
+    string.format("   Acc:     %.2f %%", stats.accuracy),
+    string.format("   Consist: %.2f %%", stats.consistency),
     "",
     " [r] Retry  [m] Menu [q] Quit"
   }
