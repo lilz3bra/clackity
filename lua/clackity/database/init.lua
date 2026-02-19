@@ -11,6 +11,7 @@ function M.init()
     lessons = {
       id = { "integer", primary = true },
       list_name = "text",
+      layot = "text",
       timestamp = { "timestamp", default = "CURRENT_TIMESTAMP" },
       characters = "integer",
       errors = "integer",
@@ -25,8 +26,26 @@ function M.init()
       time = "real",
       square_time = "real"
     },
-    -- lesson_history = {},
-    -- lesson_key_history = {},
+    lesson_history = {
+      id = { "integer", primary = true },
+      list_name = "text",
+      layout = "text",
+      start_ts = "timestamp",
+      end_ts = "timestamp",
+      lesson_qty = "integer",
+      characters = "integer",
+      errors = "integer",
+      time = "integer",
+      square_time = "integer"
+    },
+    lesson_key_history = {
+      lesson_history_id = { "integer", reference = "lesson_history.id", on_delete = "cascade" },
+      char = "text",
+      appearances = "integer",
+      errors = "integer",
+      time = "real",
+      square_time = "real"
+    },
   })
 end
 
