@@ -46,3 +46,10 @@
 --- @field errors number
 --- @field time number
 --- @field square_time number
+
+--- @class Clackity.config
+--- @field word_count number
+--- @field wordlist Clackity.config.wordlist
+
+--- @class Clackity.config.wordlist
+--- @field current_wordlist string

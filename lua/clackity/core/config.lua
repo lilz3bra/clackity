@@ -1,7 +1,10 @@
 local M = {}
-
+---@type Clackity.config
 local defaults = {
-  word_count = 20
+  word_count = 20,
+  wordlist_config = {
+    current_wordlist = "en_1k_common",
+  }
 }
 
 M.values = vim.deepcopy(defaults)
