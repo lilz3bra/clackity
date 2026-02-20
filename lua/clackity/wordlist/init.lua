@@ -16,7 +16,7 @@ function M.get_available_lists()
   return lists
 end
 
-local get_random_indices = function(qty, max)
+local function get_random_indices(qty, max)
   local indices = {}
   for i = 1, qty, 1 do
     indices[i] = math.random(max)
@@ -24,12 +24,32 @@ local get_random_indices = function(qty, max)
   return indices
 end
 
+--- @param wordlist string: The wordlist to load
+--- @return string[]: List of words
+function M.load_wordlist(wordlist)
+  local path = "wordlists/" .. wordlist .. ".txt"
+  local words = {}
 
---- TODO: implement using the loaded list instead of the old hardcoded one
+  local file = io.open(path, "r")
+
+  if not file then
+    vim.notify("Clackity: error opening wordlist", vim.log.levels.ERROR)
+    return {}
+  end
+
+  for line in file:lines() do
+    table.insert(words, line)
+  end
+  file:close()
+
+  return words
+end
+
 --- Get an arbitrary number of words from the wordlist
 --- @param qty number: Number of words to be returned
+--- @param wordlist string[]: The loaded wordlist
 --- @return string[]: Word array
-function M.get_random_words(qty)
+function M.get_random_words(qty, wordlist)
   local words = {}
   if qty > #wordlist then
     words = wordlist

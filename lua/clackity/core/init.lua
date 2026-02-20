@@ -1,7 +1,7 @@
 local M = {}
 
 local ui = require("clackity.ui")
-local word_list = require("clackity.core.wordlist")
+local word_list = require("clackity.wordlist")
 local state = require("clackity.core.state")
 local input = require("clackity.input")
 local config = require("clackity.core.config")
@@ -32,7 +32,12 @@ end
 function M.start_lesson()
   state.reset()
   local word_count = config.values.word_count
-  local words = word_list.get_random_words(word_count)
+
+  --- @type Clackity.config.wordlist
+  local wordlist_config = config.values.wordlist_config
+  local list = word_list.load_wordlist(wordlist_config.current_wordlist)
+
+  local words = word_list.get_random_words(word_count, list)
   local win_width = ui.get_content_width(state.win_id)
   local lines = word_list.wrap_words(words, win_width)
   state.target_lines = lines
