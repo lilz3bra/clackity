@@ -21,12 +21,30 @@ end
 function M.draw_menu(bufnr)
   M.render_main(bufnr, {
     "",
-    "   CLACKITY TYPE   ",
+    "   CLACKITY ",
     "   -------------   ",
     "",
     " [Enter] Start Lesson",
-    " [s]     Stats       ",
+    " [w]     Wordlist config",
     " [q]     Quit        "
+  })
+end
+
+--- @param bufnr number
+--- @param wordlist_config Clackity.config.wordlist
+function M.draw_wordlist_config(bufnr, wordlist_config)
+  M.render_main(bufnr, {
+    "",
+    "   WORDLIST CONFIG   ",
+    "   ---------------   ",
+    "",
+    string.format("Wordlist: [ %s ]", wordlist_config.current_wordlist),
+    "Casing",
+    "Filter words",
+    "",
+    " [Enter] Select",
+    " [j,k]     Move",
+    " [Esc, q]     Go back"
   })
 end
 

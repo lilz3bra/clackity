@@ -66,6 +66,27 @@ function M.post_lesson()
   db.save_lesson(tbl_data, lesson_stats.keys)
 end
 
+function M.wordlist_config()
+  --- @type Clackity.config.wordlist
+  local wordlist_config = config.values.wordlist_config
+  ui.draw_wordlist_config(state.bufnr, wordlist_config)
+end
+
+function M.wordlist_select()
+  local lists = require("clackity.wordlist").get_available_lists()
+
+  local current_idx = 1
+
+  local current_list = config.values.wordlist
+
+  for i, list in ipairs(lists) do
+    if list == current_list then
+      current_idx = i
+      break
+    end
+  end
+end
+
 --- Cleanup and quit
 function M.quit()
   ui.close(state.win_id)

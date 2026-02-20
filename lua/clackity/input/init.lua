@@ -59,6 +59,7 @@ function M.attach_main(bufnr)
   -- vim.keymap.set("n", "s", require("clackity.core").show_stats, opts)
   vim.keymap.set("n", "q", require("clackity.core").quit, opts)
   vim.keymap.set("n", "<Esc>", require("clackity.core").quit, opts)
+  vim.keymap.set("n", "w", require("clackity.core").wordlist_config, opts)
 end
 
 function M.attach_post_lesson(bufnr)
@@ -71,6 +72,15 @@ function M.attach_post_lesson(bufnr)
   vim.keymap.set("n", "r", require("clackity.core").start_lesson, opts)
   vim.keymap.set("n", "q", require("clackity.core").quit, opts)
   vim.keymap.set("n", "m", require("clackity.core").show_menu, opts)
+end
+
+function M.attach_wordlist_menu(bufnr, actions)
+  smart_clear(bufnr, keys)
+  smart_clear(bufnr, { "<CR>", "j", "k", "<Esc>", "q" })
+
+  local opts = { buffer = bufnr, nowait = true, noremap = true, silent = true }
+
+  vim.keymap.set("n", "q", actions.back, opts)
 end
 
 return M
