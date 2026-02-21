@@ -72,24 +72,75 @@ function M.post_lesson()
 end
 
 function M.wordlist_config()
-  --- @type Clackity.config.wordlist
+  local header_offset = 4
   local wordlist_config = config.values.wordlist_config
-  ui.draw_wordlist_config(state.bufnr, wordlist_config)
+
+  local opts = {
+    string.format("Wordlist: [ %s ]", wordlist_config.current_wordlist),
+    "Casing",
+    "Filter words"
+  }
+  ui.draw_selector(state.bufnr, state.win_id, "WORDLIST CONFIG", opts)
+
+  local actions = {
+    select = function()
+      local physical_row = vim.api.nvim_win_get_cursor(0)[1]
+      local array_index = physical_row - header_offset
+
+      if array_index == 1 then
+        ui.clear_selector(state.bufnr)
+        M.wordlist_select()
+      elseif array_index == 2 then
+        vim.notify("Casing menu coming soon!")
+      elseif array_index == 3 then
+        vim.notify("Filter menu coming soon!")
+      end
+    end,
+    back = function()
+      ui.clear_selector(state.bufnr)
+      M.show_menu()
+    end
+  }
+
+  input.attach_selector(state.bufnr, actions)
 end
 
 function M.wordlist_select()
-  local lists = require("clackity.wordlist").get_available_lists()
+  local current_val = config.values.wordlist_config.current_wordlist
 
-  local current_idx = 1
-
-  local current_list = config.values.wordlist
-
-  for i, list in ipairs(lists) do
-    if list == current_list then
-      current_idx = i
-      break
-    end
+  local raw_lists = word_list.get_available_lists()
+  local display_opts = { current_val }
+  for _, list in ipairs(raw_lists) do
+    if list ~= current_val then table.insert(display_opts, list) end
   end
+
+  local header_offset = 4
+
+  ui.draw_selector(state.bufnr, state.win_id, "SELECT WORDLIST", display_opts)
+
+  local actions = {
+    select = function()
+      local physical_row = vim.api.nvim_win_get_cursor(0)[1]
+
+      local array_index = physical_row - header_offset
+
+      if array_index >= 1 and array_index <= #display_opts then
+        local chosen_value = display_opts[array_index]
+
+        local new_config = vim.deepcopy(config.values.wordlist_config)
+        new_config.current_wordlist = chosen_value
+        config.save("wordlist_config", new_config)
+
+        M.wordlist_config()
+      end
+    end,
+    back = function()
+      ui.clear_selector(state.bufnr)
+      M.wordlist_config()
+    end
+  }
+
+  input.attach_selector(state.bufnr, actions)
 end
 
 --- Cleanup and quit
