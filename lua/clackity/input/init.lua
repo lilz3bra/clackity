@@ -74,12 +74,18 @@ function M.attach_post_lesson(bufnr)
   vim.keymap.set("n", "m", require("clackity.core").show_menu, opts)
 end
 
-function M.attach_wordlist_menu(bufnr, actions)
+--- Reusable input handler for ANY menu that needs j/k/Enter navigation
+--- @param bufnr number
+--- @param actions table Contains down, up, select, and back closures
+function M.attach_selector(bufnr, actions)
   smart_clear(bufnr, keys)
-  smart_clear(bufnr, { "<CR>", "j", "k", "<Esc>", "q" })
+  smart_clear(bufnr, { "<CR>", "<Esc>", "q" })
 
   local opts = { buffer = bufnr, nowait = true, noremap = true, silent = true }
 
+  -- Only map the triggers. Navigation is native!
+  vim.keymap.set("n", "<CR>", actions.select, opts)
+  vim.keymap.set("n", "<Esc>", actions.back, opts)
   vim.keymap.set("n", "q", actions.back, opts)
 end
 
