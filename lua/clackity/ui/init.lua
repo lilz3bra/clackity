@@ -2,7 +2,7 @@ local M = {}
 
 local window = require("clackity.ui.window")
 local highlight = require("clackity.ui.highlight")
-
+local menu_group = vim.api.nvim_create_augroup("ClackityMenu", { clear = true })
 function M.create_window()
   highlight.setup()
 
@@ -45,6 +45,45 @@ function M.draw_wordlist_config(bufnr, wordlist_config)
     " [Enter] Select",
     " [j,k]     Move",
     " [Esc, q]     Go back"
+  })
+end
+
+--- @param bufnr number
+--- @param title string
+--- @param opts string[]
+function M.draw_selector(bufnr, win_id, title, opts)
+  local lines = {
+    "",
+    "   " .. title,
+    "   " .. string.rep("-", #title),
+    ""
+  }
+
+  local header_offset = #lines
+
+  for _, opt in ipairs(opts) do
+    table.insert(lines, "   " .. opt)
+  end
+
+  table.insert(lines, "")
+  table.insert(lines, " [Enter] Select  [Esc/q] Back")
+
+  M.render_main(bufnr, lines)
+
+  pcall(vim.api.nvim_win_set_cursor, win_id, { header_offset + 1, 0 })
+
+  vim.api.nvim_create_autocmd("CursorMoved", {
+    buffer = bufnr,
+    group = menu_group,
+    callback = function()
+      local row = vim.api.nvim_win_get_cursor(0)[1]
+
+      highlight.clear(bufnr)
+
+      if row > header_offset and row <= header_offset + #opts then
+        highlight.paint_line(bufnr, "ClackitySelection", row - 1)
+      end
+    end
   })
 end
 
@@ -102,6 +141,11 @@ function M.close(win_id)
     vim.api.nvim_win_close(win_id, true)
   end
   window.restore_cursor()
+end
+
+function M.clear_selector(bufnr)
+  pcall(vim.api.nvim_clear_autocmds, { group = menu_group, buffer = bufnr })
+  highlight.clear(bufnr)
 end
 
 function M.get_content_width(win_id)
