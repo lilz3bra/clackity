@@ -2,8 +2,8 @@ local M = {}
 ---@type Clackity.config
 local defaults = {
   word_count = 20,
-  wordlist_config = {
-    current_wordlist = "en_1k_common",
+  wordlist = {
+    current = "en_1k_common",
   }
 }
 

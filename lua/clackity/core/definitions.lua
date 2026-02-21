@@ -52,4 +52,4 @@
 --- @field wordlist Clackity.config.wordlist
 
 --- @class Clackity.config.wordlist
---- @field current_wordlist string
+--- @field current string

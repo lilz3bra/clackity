@@ -34,8 +34,8 @@ function M.start_lesson()
   local word_count = config.values.word_count
 
   --- @type Clackity.config.wordlist
-  local wordlist_config = config.values.wordlist_config
-  local list = word_list.load_wordlist(wordlist_config.current_wordlist)
+  local wordlist_config = config.values.wordlist
+  local list = word_list.load_wordlist(wordlist_config.current)
 
   local words = word_list.get_random_words(word_count, list)
   local win_width = ui.get_content_width(state.win_id)
@@ -73,10 +73,10 @@ end
 
 function M.wordlist_config()
   local header_offset = 4
-  local wordlist_config = config.values.wordlist_config
+  local cfg = config.values.wordlist
 
   local opts = {
-    string.format("Wordlist: [ %s ]", wordlist_config.current_wordlist),
+    string.format("Wordlist: [ %s ]", cfg.current),
     "Casing",
     "Filter words"
   }
@@ -106,7 +106,7 @@ function M.wordlist_config()
 end
 
 function M.wordlist_select()
-  local current_val = config.values.wordlist_config.current_wordlist
+  local current_val = config.values.wordlist.current
 
   local raw_lists = word_list.get_available_lists()
   local display_opts = { current_val }
@@ -127,9 +127,9 @@ function M.wordlist_select()
       if array_index >= 1 and array_index <= #display_opts then
         local chosen_value = display_opts[array_index]
 
-        local new_config = vim.deepcopy(config.values.wordlist_config)
-        new_config.current_wordlist = chosen_value
-        config.save("wordlist_config", new_config)
+        local new_config = vim.deepcopy(config.values.wordlist)
+        new_config.current = chosen_value
+        config.save("wordlist", new_config)
 
         M.wordlist_config()
       end
