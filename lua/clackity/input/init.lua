@@ -32,21 +32,60 @@ local function smart_clear(bufnr, keys_to_check)
   end
 end
 
-function M.attach_lesson(bufnr)
+function M.attach_lesson(bufnr, actions)
   -- TODO: add all the other keys
   -- TODO: add unused keys (like tab)
   smart_clear(bufnr, { "<CR>", "s", "q", "m", "r" })
-  for i = 1, #keys do
-    local char = keys:sub(i, i)
-    vim.keymap.set("n", char, function()
-      require("clackity.core").handle_input(char)
-    end, { buffer = bufnr, nowait = true, noremap = true, silent = true })
-  end
 
-  -- Lesson control
-  vim.keymap.set("n", "<C-q>", require("clackity.core").quit, { buffer = bufnr, silent = true })
-  vim.keymap.set("n", "<C-r>", require("clackity.core").start_lesson, { buffer = bufnr, silent = true })
-  vim.keymap.set("n", "<Esc>", require("clackity.core").show_menu, { buffer = bufnr, silent = true })
+  vim.schedule(function()
+    M.typing_loop(bufnr, actions)
+  end)
+  -- for i = 1, #keys do
+  --   local char = keys:sub(i, i)
+  --   vim.keymap.set("n", char, function()
+  --     require("clackity.core").handle_input(char)
+  --   end, { buffer = bufnr, nowait = true, noremap = true, silent = true })
+  -- end
+  --
+  -- -- Lesson control
+  -- vim.keymap.set("n", "<C-q>", require("clackity.core").quit, { buffer = bufnr, silent = true })
+  -- vim.keymap.set("n", "<C-r>", require("clackity.core").start_lesson, { buffer = bufnr, silent = true })
+  -- vim.keymap.set("n", "<Esc>", require("clackity.core").show_menu, { buffer = bufnr, silent = true })
+end
+
+function M.typing_loop(bufnr, actions)
+  vim.cmd("redraw")
+
+  while true do
+    local ok, char = pcall(vim.fn.getcharstr)
+
+    -- Ctrl+C or process killed
+    if not ok or char == "\3" then
+      actions.on_quit()
+      break
+    end
+
+    -- Esc (\27)
+    if char == "\27" or char == "\17" then
+      actions.on_menu()
+      break
+    end
+
+    -- Ctrl+R (\18)
+    if char == "\18" then
+      actions.on_restart()
+      break
+    end
+
+    -- Pass the raw character to whatever callback was injected
+    local is_finished = actions.on_keystroke(char)
+
+    vim.cmd("redraw")
+
+    if is_finished then
+      break
+    end
+  end
 end
 
 function M.attach_main(bufnr)
