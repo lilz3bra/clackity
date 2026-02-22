@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.1.0](https://github.com/lilz3bra/clackity/compare/v1.0.0...v1.1.0) (2026-02-22)
+
+
+### Features
+
+* added bindings for the selection menus ([0624639](https://github.com/lilz3bra/clackity/commit/062463987ae149568ebce38a8c99575a75053fb1))
+* added selection highlight ([7f464f8](https://github.com/lilz3bra/clackity/commit/7f464f81d466035fac454172e2cc97bc59b59264))
+* added selection windows ([bb12416](https://github.com/lilz3bra/clackity/commit/bb1241673afd6f63070f3eb0a797d9717727ca67))
+* implemented wordlist config menu and wordlist selection menu ([95b2f3a](https://github.com/lilz3bra/clackity/commit/95b2f3ad2ed4f496e317479fe4a1eacdc0c022e2))
+
+
+### Bug Fixes
+
+* re-wired the lesson start to the new wordlist loader ([b1e518d](https://github.com/lilz3bra/clackity/commit/b1e518d4c3a02fb606fc0688fe8a97050450c218))
+* resolve multibyte and dead-key input not working properly ([#4](https://github.com/lilz3bra/clackity/issues/4)) ([f1e76d0](https://github.com/lilz3bra/clackity/commit/f1e76d0c0427287d4200ac0ae83da24e5f1df727))
+
 ## 1.0.0 (2026-02-19)
 
 
