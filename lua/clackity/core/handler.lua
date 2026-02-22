@@ -25,15 +25,18 @@ function M.process_keystroke(key)
 
   if not target_line then return true end
 
-  local target_char = target_line:sub(col_idx + 1, col_idx + 1)
+  local target_char = vim.fn.strcharpart(target_line, col_idx, 1)
 
   local is_match = (key == target_char)
   local status = is_match and "correct" or "error"
 
+  local byte_start = vim.fn.byteidx(target_line, col_idx)
+  local byte_end = vim.fn.byteidx(target_line, col_idx + 1)
+
   if is_match then
-    ui.mark_correct(state.bufnr, line_idx, col_idx)
+    ui.mark_correct(state.bufnr, line_idx, byte_start, byte_end)
   else
-    ui.mark_error(state.bufnr, line_idx, col_idx)
+    ui.mark_error(state.bufnr, line_idx, byte_start, byte_end)
   end
 
   local latency = current_time - state.last_key_time
@@ -50,7 +53,7 @@ function M.process_keystroke(key)
   table.insert(state.stats_log, log)
   state.last_key_time = current_time
 
-  if state.current_col >= #target_line then
+  if state.current_col >= vim.fn.strchars(target_line) then
     state.current_col = 0
     state.current_row = state.current_row + 1
 
@@ -60,7 +63,7 @@ function M.process_keystroke(key)
     end
   end
 
-  ui.move_cursor(state.win_id, state.current_row, state.current_col)
+  ui.move_cursor(state.win_id, state.current_row, byte_end)
   return false
 end
 

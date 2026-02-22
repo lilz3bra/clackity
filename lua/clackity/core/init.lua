@@ -43,7 +43,25 @@ function M.start_lesson()
   state.target_lines = lines
   ui.render_lines(state.bufnr, lines)
   ui.move_cursor(state.win_id, 0, 0)
-  input.attach_lesson(state.bufnr)
+  local actions = {
+    on_quit = M.quit,
+    on_menu = M.show_menu,
+    on_restart = M.start_lesson,
+    on_keystroke = function(char)
+      local is_finished = handler.process_keystroke(char)
+
+      if is_finished then
+        vim.schedule(function()
+          M.post_lesson()
+        end)
+      end
+
+      return is_finished
+    end
+  }
+
+  -- Inject!
+  input.attach_lesson(state.bufnr, actions)
 end
 
 --- Input handler callback

@@ -124,12 +124,12 @@ function M.render_lines(buf, words)
   end
 end
 
-function M.mark_correct(buf, row, col)
-  highlight.paint(buf, "ClackityCorrect", row, col, col + 1)
+function M.mark_correct(buf, row, col_start, col_end)
+  highlight.paint(buf, "ClackityCorrect", row, col_start, col_end)
 end
 
-function M.mark_error(buf, row, col)
-  highlight.paint(buf, "ClackityError", row, col, col + 1)
+function M.mark_error(buf, row, col_start, col_end)
+  highlight.paint(buf, "ClackityError", row, col_start, col_end)
 end
 
 function M.move_cursor(win, row, col)
