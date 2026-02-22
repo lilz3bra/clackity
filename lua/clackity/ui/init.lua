@@ -133,7 +133,8 @@ function M.mark_error(buf, row, col_start, col_end)
 end
 
 function M.move_cursor(win, row, col)
-  pcall(vim.api.nvim_win_set_cursor, win, { row + 1, col })
+  vim.api.nvim_win_set_cursor(win, { row + 1, col })
+  vim.api.nvim__redraw({ valid = false, flush = true, cursor = true })
 end
 
 function M.close(win_id)

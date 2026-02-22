@@ -63,7 +63,10 @@ function M.process_keystroke(key)
     end
   end
 
-  ui.move_cursor(state.win_id, state.current_row, byte_end)
+  local active_line = state.target_lines[state.current_row + 1]
+  local cursor_byte = vim.fn.byteidx(active_line, state.current_col)
+
+  ui.move_cursor(state.win_id, state.current_row, cursor_byte)
   return false
 end
 
