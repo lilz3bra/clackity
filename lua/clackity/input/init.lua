@@ -66,7 +66,7 @@ function M.typing_loop(bufnr, actions)
     end
 
     -- Esc (\27)
-    if char == "\27" then
+    if char == "\27" or char == "\17" then
       actions.on_menu()
       break
     end
