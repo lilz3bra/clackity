@@ -33,7 +33,7 @@ function M.setup(user_opts)
     f:close()
 
     local ok, saved_data = pcall(vim.fn.json_decode, content)
-    if ok and saved_data then
+    if ok and saved_data and saved_data.rules then
       M.session_rules.rules = vim.tbl_deep_extend("force", M.session_rules.rules, saved_data)
     end
   end
@@ -47,7 +47,7 @@ function M.save_rule(key, value)
 
   local f = io.open(data_path, "w")
   if f then
-    f:write(vim.fn.json_encode(M.values))
+    f:write(vim.fn.json_encode(M.session_rules))
     f:close()
   else
     vim.notify("Clackity: could not save config", vim.log.levels.ERROR)
@@ -62,7 +62,9 @@ function M.get_active_rules()
     local rule_blueprint = rules.registry[key]
 
     if rule_blueprint then
-      if current_val ~= rule_blueprint.default and current_val ~= false then
+      if current_val ~= rule_blueprint.default
+          and current_val ~= false
+          and not rule_blueprint.db_ignore then
         active_rules[key] = current_val
       end
     end
