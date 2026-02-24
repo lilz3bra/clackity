@@ -10,7 +10,7 @@ M.active_hooks = {
 --- Scans the rules dir and populates the registry blueprint
 function M.setup()
   local plugin_root = vim.fn.fnamemodify(debug.getinfo(1).source:sub(2), ":h")
-  local files = vim.fn.split(vim.fn.globalpath(plugin_root, "*.lua"), "\n")
+  local files = vim.fn.split(vim.fn.globpath(plugin_root, "*.lua"), "\n")
 
   for _, file in ipairs(files) do
     local module_name = vim.fn.fnamemodify(file, ":t:r")
@@ -53,7 +53,7 @@ function M.resolve_active_hooks(session_rules)
 
   -- Exctract the closures into the final array
   for _, item in ipairs(unsorted_on_load) do
-    table.insert(M.active_hooks.onload, item.fn)
+    table.insert(M.active_hooks.on_load, item.fn)
   end
 end
 
