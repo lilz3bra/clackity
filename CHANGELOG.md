@@ -1,5 +1,28 @@
 # Changelog
 
+## [2.0.0](https://github.com/lilz3bra/clackity/compare/v1.1.0...v2.0.0) (2026-02-24)
+
+
+### ⚠ BREAKING CHANGES
+
+* implement EAV schema for session rules. Updated 'save_lesson' to accept active_rules as param
+
+### Features
+
+* added accent replace rule ([b96634a](https://github.com/lilz3bra/clackity/commit/b96634a4a82cf033f28d86241da4760db594e470))
+* added db_ignore field, set hooks and order as optional fields ([018df3d](https://github.com/lilz3bra/clackity/commit/018df3daeb9653d828024e49c26a91ad23d09901))
+* implement EAV schema for session rules. Updated 'save_lesson' to accept active_rules as param ([39ab7e3](https://github.com/lilz3bra/clackity/commit/39ab7e3d16942c79ecbc8e2e923c15f12bc253ce))
+* implemented dynamic rules and hooks pipeline ([57a16e5](https://github.com/lilz3bra/clackity/commit/57a16e5fed838fb53b2a819d3798c11cfb8b020a))
+* implemented new options menu logic using the new rules structure ([109e096](https://github.com/lilz3bra/clackity/commit/109e096aa92eafe7c29185910f10709c570e30ed))
+* implemented old wordlist functions as rule hooks ([0f5dbc1](https://github.com/lilz3bra/clackity/commit/0f5dbc1f76a30164cf80b97daba13a519ec9efaf))
+
+
+### Bug Fixes
+
+* added a check in Start() to build the config if it doesnt exist ([db0fc29](https://github.com/lilz3bra/clackity/commit/db0fc29bd7b7892e231bceb9136af8e1c351f1b2))
+* save the correct data to json config ([b98c0ae](https://github.com/lilz3bra/clackity/commit/b98c0ae85afa329fa31cb9e52c4a7b15be669f68))
+* wordlist should now load correctly when launching nvim from a different dir. removed refactored function ([d355bf0](https://github.com/lilz3bra/clackity/commit/d355bf0cbd5a4de3d52e90b9be99a408d395ad9a))
+
 ## [1.1.0](https://github.com/lilz3bra/clackity/compare/v1.0.0...v1.1.0) (2026-02-22)
 
 
