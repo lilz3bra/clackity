@@ -130,7 +130,7 @@ function M.show_config_menu()
 
   ui.draw_selector(state.bufnr, state.win_id, "CONFIGURATION", opts)
 
-  local header_offset = 4
+  local header_offset = 5
   local actions = {
     select = function()
       local row = vim.api.nvim_win_get_cursor(0)[1]
