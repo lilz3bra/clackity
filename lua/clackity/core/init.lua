@@ -8,6 +8,7 @@ local config = require("clackity.core.config")
 local stats = require("clackity.stats")
 local db = require("clackity.database")
 local handler = require("clackity.core.handler")
+local rules = require("clackity.rules")
 
 --- Entry point
 function M.start_plugin()
@@ -24,25 +25,24 @@ function M.show_menu()
   state.reset()
   ui.draw_menu(state.bufnr)
 
-  -- Switch input mode to Menu
   input.attach_main(state.bufnr)
 end
 
 --- Launch a new lesson window
 function M.start_lesson()
   state.reset()
-  local word_count = config.values.word_count
 
-  --- @type Clackity.config.wordlist
-  local wordlist_config = config.values.wordlist
-  local list = word_list.load_wordlist(wordlist_config.current)
+  rules.resolve_active_hooks(config.session_rules.rules)
 
-  local words = word_list.get_random_words(word_count, list)
+  local final_words = rules.run_load_hooks({})
+
   local win_width = ui.get_content_width(state.win_id)
-  local lines = word_list.wrap_words(words, win_width)
+  local lines = word_list.wrap_words(final_words, win_width)
+
   state.target_lines = lines
   ui.render_lines(state.bufnr, lines)
   ui.move_cursor(state.win_id, 0, 0)
+
   local actions = {
     on_quit = M.quit,
     on_menu = M.show_menu,
@@ -60,7 +60,6 @@ function M.start_lesson()
     end
   }
 
-  -- Inject!
   input.attach_lesson(state.bufnr, actions)
 end
 
@@ -89,6 +88,7 @@ function M.post_lesson()
   db.save_lesson(tbl_data, lesson_stats.keys)
 end
 
+--- Show the wordlist config menu
 function M.wordlist_config()
   local header_offset = 4
   local cfg = config.values.wordlist
@@ -123,6 +123,7 @@ function M.wordlist_config()
   input.attach_selector(state.bufnr, actions)
 end
 
+--- Show the wordlist selector
 function M.wordlist_select()
   local current_val = config.values.wordlist.current
 
