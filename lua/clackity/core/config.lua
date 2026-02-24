@@ -34,7 +34,7 @@ function M.setup(user_opts)
 
     local ok, saved_data = pcall(vim.fn.json_decode, content)
     if ok and saved_data and saved_data.rules then
-      M.session_rules.rules = vim.tbl_deep_extend("force", M.session_rules.rules, saved_data)
+      M.session_rules.rules = vim.tbl_deep_extend("force", M.session_rules.rules, saved_data.rules)
     end
   end
 end
