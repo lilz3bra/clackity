@@ -34,7 +34,9 @@ function M.start_lesson()
 
   rules.resolve_active_hooks(config.session_rules.rules)
 
-  local final_words = rules.run_load_hooks({})
+  local list_name = config.session_rules.rules["wordlist"] or "en_1k_common"
+  local raw_words = word_list.load_wordlist(list_name)
+  local final_words = rules.run_load_hooks(raw_words)
 
   local win_width = ui.get_content_width(state.win_id)
   local lines = word_list.wrap_words(final_words, win_width)
@@ -75,17 +77,128 @@ function M.post_lesson()
   local lesson_stats = stats.lesson_stats(state.stats_log)
 
   ui.draw_post_lesson(state.bufnr, lesson_stats)
-
   input.attach_post_lesson(state.bufnr)
+
   --- @type Clackity.database.lesson
   local tbl_data = {
-    list_name = "default",
+    list_name = config.session_rules.rules["wordlist"],
+    layout = "default",
     time = lesson_stats.time,
     errors = lesson_stats.errors,
     characters = lesson_stats.total_chars,
     square_time = lesson_stats.square_time
   }
-  db.save_lesson(tbl_data, lesson_stats.keys)
+
+  local active_rules = config.get_active_rules()
+  db.save_lesson(tbl_data, lesson_stats.keys, active_rules)
+end
+
+--- Show the config menu
+function M.show_config_menu()
+  local opts = {}
+  local rules_on_row = {}
+  local grouped_rules = {}
+  for _, rule in pairs(rules.registry) do
+    grouped_rules[rule.category] = grouped_rules[rule.category] or {}
+    table.insert(grouped_rules[rule.category], rule)
+  end
+
+  local categories = vim.tbl_keys(grouped_rules)
+  table.sort(categories)
+
+  for _, category in ipairs(categories) do
+    table.insert(opts, "---" .. string.upper(category) .. "---")
+    table.insert(rules_on_row, nil)
+
+    table.sort(grouped_rules[category], function(a, b) return a.name < b.name end)
+
+    for _, rule in ipairs(grouped_rules[category]) do
+      local current_val = config.session_rules.rules[rule.key]
+      local display_val = current_val
+
+      if type(current_val) == table then
+        display_val = table.concat(current_val, ",")
+        if display_val == "" then display_val = "None" end
+      end
+
+      table.insert(opts, string.format(" %s: [ %s ]", rule.name, tostring(display_val)))
+      table.insert(rules_on_row, rule)
+    end
+    table.insert(opts, "")
+    table.insert(rules_on_row, nil)
+  end
+
+  ui.draw_selector(state.bufnr, state.win_id, "CONFIGURATION", opts)
+
+  local header_offset = 4
+  local actions = {
+    select = function()
+      local row = vim.api.nvim_win_get_cursor(0)[1]
+      local idx = row - header_offset
+
+      local selected_rule = rules_on_row[idx]
+
+      if not selected_rule then return end
+
+      ui.clear_selector(state.bufnr)
+
+      if selected_rule.input_type == "toggle" then
+        local current = config.session_rules.rules[selected_rule.key]
+        config.save_rule(selected_rule.key, not current)
+        M.show_config_menu() -- Refresh UI
+      elseif selected_rule.input_type == "select" then
+        M.show_options_selector(selected_rule)
+      elseif selected_rule.input_type == "number" or selected_rule.input_type == "text" then
+        vim.ui.input({
+          prompt = "Enter new value for " .. selected_rule.name .. ": ",
+          default = tostring(config.session_rules.rules[selected_rule.key])
+        }, function(input_val)
+          if input_val then
+            if selected_rule.input_type == "number" then
+              input_val = tonumber(input_val) or config.session_rules.rules[selected_rule.key]
+            end
+            config.save_rule(selected_rule.key, input_val)
+          end
+          M.show_config_menu()
+        end)
+      elseif selected_rule.input_type == "multi_select" then
+        vim.notify("Multi-select UI coming soon!")
+        M.show_config_menu()
+      end
+    end,
+    back = function()
+      ui.clear_selector(state.bufnr)
+      M.show_menu()
+    end
+  }
+
+  input.attach_selector(state.bufnr, actions)
+end
+
+--- Sub-menu strictly for rules with an `options` array (Returns to unified config)
+function M.show_options_selector(rule)
+  local opts = rule.options or {}
+  ui.draw_selector(state.bufnr, state.win_id, string.upper(rule.name), opts)
+
+  local header_offset = 4
+  local actions = {
+    select = function()
+      local row = vim.api.nvim_win_get_cursor(0)[1]
+      local idx = row - header_offset
+
+      if idx >= 1 and idx <= #opts then
+        config.save_rule(rule.key, opts[idx])
+      end
+
+      ui.clear_selector(state.bufnr)
+      M.show_config_menu()
+    end,
+    back = function()
+      ui.clear_selector(state.bufnr)
+      M.show_config_menu()
+    end
+  }
+  input.attach_selector(state.bufnr, actions)
 end
 
 --- Show the wordlist config menu
