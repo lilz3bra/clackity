@@ -3,6 +3,8 @@ local M = {}
 local config = require("clackity.core.config")
 local db = require("clackity.database")
 
+local is_setup = false
+
 function M.setup(opts)
   local has_sqlite, sqlite = pcall(require, "sqlite")
   if not has_sqlite then
@@ -11,9 +13,11 @@ function M.setup(opts)
     return
   end
   config.setup(opts)
+  is_setup = true
 end
 
 function M.Start()
+  if not is_setup then M.setup({}) end
   db.init()
   require("clackity.core").start_plugin()
 end
