@@ -66,7 +66,8 @@
 --- @field key string The internal session state and DB identifier
 --- @field category string Menu grouping metadata (e.g., "wordlist")
 --- @field input_type Clackity.InputType Tells the UI how to render this rule's menu
---- @field order number The execution priority (lower runs first)
+--- @field order? number The execution priority (lower runs first)
+--- @field db_ignore? boolean If true this rule is excluded from the EAV table
 --- @field default any The starting fallback value (boolean, number, string, or table of strings)
 --- @field options? any[] Optional array of choices for 'select' or 'multi_select' types
---- @field hooks Clackity.Rule.Hooks The logic to inject into the engine
+--- @field hooks? Clackity.Rule.Hooks The logic to inject into the engine
