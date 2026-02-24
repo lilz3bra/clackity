@@ -48,8 +48,25 @@
 --- @field square_time number
 
 --- @class Clackity.config
---- @field word_count number
---- @field wordlist Clackity.config.wordlist
+--- @field user Clackity.config.user
+--- @field session Clackity.config.session
 
---- @class Clackity.config.wordlist
---- @field current string
+--- @class Clackity.config.user Holds the user customizations accessible via their .lua config
+
+--- @class Clackity.config.session Holds the user config made in the config menu
+--- @field rules table<string,any>
+
+--- @class Clackity.Rule.Hooks
+--- @field on_load? fun(words: string[], value: any): string[] Modifies the wordlist before it wraps
+
+--- @alias Clackity.InputType "toggle"|"number"|"text"|"select"|"multi_select"
+
+--- @class Clackity.Rule
+--- @field name string The display name for the UI menu
+--- @field key string The internal session state and DB identifier
+--- @field category string Menu grouping metadata (e.g., "wordlist")
+--- @field input_type Clackity.InputType Tells the UI how to render this rule's menu
+--- @field order number The execution priority (lower runs first)
+--- @field default any The starting fallback value (boolean, number, string, or table of strings)
+--- @field options? any[] Optional array of choices for 'select' or 'multi_select' types
+--- @field hooks Clackity.Rule.Hooks The logic to inject into the engine
