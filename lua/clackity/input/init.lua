@@ -98,7 +98,7 @@ function M.attach_main(bufnr)
   -- vim.keymap.set("n", "s", require("clackity.core").show_stats, opts)
   vim.keymap.set("n", "q", require("clackity.core").quit, opts)
   vim.keymap.set("n", "<Esc>", require("clackity.core").quit, opts)
-  vim.keymap.set("n", "w", require("clackity.core").wordlist_config, opts)
+  vim.keymap.set("n", "o", require("clackity.core").show_config_menu, opts)
 end
 
 function M.attach_post_lesson(bufnr)

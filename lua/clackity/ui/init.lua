@@ -25,7 +25,7 @@ function M.draw_menu(bufnr)
     "   -------------   ",
     "",
     " [Enter] Start Lesson",
-    " [w]     Wordlist config",
+    " [o]     Options",
     " [q]     Quit        "
   })
 end
