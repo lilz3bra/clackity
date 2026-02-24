@@ -65,11 +65,11 @@ function M.start_lesson()
   input.attach_lesson(state.bufnr, actions)
 end
 
---- Input handler callback
-function M.handle_input(key)
-  local is_finished = handler.process_keystroke(key)
-  if is_finished then M.post_lesson() end
-end
+-- --- Input handler callback
+-- function M.handle_input(key)
+--   local is_finished = handler.process_keystroke(key)
+--   if is_finished then M.post_lesson() end
+-- end
 
 --- Show the end of lesson screen
 function M.post_lesson()
@@ -198,80 +198,6 @@ function M.show_options_selector(rule)
       M.show_config_menu()
     end
   }
-  input.attach_selector(state.bufnr, actions)
-end
-
---- Show the wordlist config menu
-function M.wordlist_config()
-  local header_offset = 4
-  local cfg = config.values.wordlist
-
-  local opts = {
-    string.format("Wordlist: [ %s ]", cfg.current),
-    "Casing",
-    "Filter words"
-  }
-  ui.draw_selector(state.bufnr, state.win_id, "WORDLIST CONFIG", opts)
-
-  local actions = {
-    select = function()
-      local physical_row = vim.api.nvim_win_get_cursor(0)[1]
-      local array_index = physical_row - header_offset
-
-      if array_index == 1 then
-        ui.clear_selector(state.bufnr)
-        M.wordlist_select()
-      elseif array_index == 2 then
-        vim.notify("Casing menu coming soon!")
-      elseif array_index == 3 then
-        vim.notify("Filter menu coming soon!")
-      end
-    end,
-    back = function()
-      ui.clear_selector(state.bufnr)
-      M.show_menu()
-    end
-  }
-
-  input.attach_selector(state.bufnr, actions)
-end
-
---- Show the wordlist selector
-function M.wordlist_select()
-  local current_val = config.values.wordlist.current
-
-  local raw_lists = word_list.get_available_lists()
-  local display_opts = { current_val }
-  for _, list in ipairs(raw_lists) do
-    if list ~= current_val then table.insert(display_opts, list) end
-  end
-
-  local header_offset = 4
-
-  ui.draw_selector(state.bufnr, state.win_id, "SELECT WORDLIST", display_opts)
-
-  local actions = {
-    select = function()
-      local physical_row = vim.api.nvim_win_get_cursor(0)[1]
-
-      local array_index = physical_row - header_offset
-
-      if array_index >= 1 and array_index <= #display_opts then
-        local chosen_value = display_opts[array_index]
-
-        local new_config = vim.deepcopy(config.values.wordlist)
-        new_config.current = chosen_value
-        config.save("wordlist", new_config)
-
-        M.wordlist_config()
-      end
-    end,
-    back = function()
-      ui.clear_selector(state.bufnr)
-      M.wordlist_config()
-    end
-  }
-
   input.attach_selector(state.bufnr, actions)
 end
 

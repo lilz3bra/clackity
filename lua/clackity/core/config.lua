@@ -16,7 +16,7 @@ local data_path = vim.fn.stdpath("data") .. "/clackity.json"
 function M.setup(user_opts)
   user_opts = user_opts or {}
 
-  M.values = vim.tbl_deep_extend("force", user_defaults, user_opts)
+  M.user_settings = vim.tbl_deep_extend("force", user_defaults, user_opts)
 
   rules.setup()
 
