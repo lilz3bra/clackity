@@ -1,5 +1,7 @@
 local M = {}
 
+--- @param opts? table
+--- @return { buf: number, win: number }
 M.create_window = function(opts)
   opts = opts or {}
 
@@ -24,6 +26,7 @@ M.create_window = function(opts)
   return { buf = buf, win = win }
 end
 
+--- @param bufnr number
 M.buffer_keys_fix = function(bufnr)
   local augroup = vim.api.nvim_create_augroup("ClackityInputFix", { clear = true })
   local original_timeout = vim.o.timeoutlen
@@ -55,10 +58,13 @@ end
 
 local original_cursor = ""
 
+--- Restores the user's original cursor style
 M.restore_cursor = function()
   vim.opt.guicursor = original_cursor
 end
 
+--- Forces a line cursor (similar to the default insert mode) for the lesson
+--- @return string: The original cursor setting
 M.set_fake_cursor = function()
   original_cursor = vim.opt.guicursor:get()
   vim.opt.guicursor = "n:ver25-blinkon0"

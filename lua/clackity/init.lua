@@ -5,6 +5,7 @@ local db = require("clackity.database")
 
 local is_setup = false
 
+--- @param opts? table User configuration overrides
 function M.setup(opts)
   local has_sqlite, sqlite = pcall(require, "sqlite")
   if not has_sqlite then

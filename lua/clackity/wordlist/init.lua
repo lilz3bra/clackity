@@ -1,5 +1,7 @@
 local M = {}
 
+--- Scans the runtime path for available wordlist files
+--- @return string[]: List of filenames (without .txt)
 function M.get_available_lists()
   local files = vim.api.nvim_get_runtime_file("wordlists/*.txt", true)
   local lists = {}

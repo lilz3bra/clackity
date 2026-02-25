@@ -65,12 +65,6 @@ function M.start_lesson()
   input.attach_lesson(state.bufnr, actions)
 end
 
--- --- Input handler callback
--- function M.handle_input(key)
---   local is_finished = handler.process_keystroke(key)
---   if is_finished then M.post_lesson() end
--- end
-
 --- Show the end of lesson screen
 function M.post_lesson()
   --- @type Clackity.stats.lesson
@@ -175,7 +169,8 @@ function M.show_config_menu()
   input.attach_selector(state.bufnr, actions)
 end
 
---- Sub-menu strictly for rules with an `options` array (Returns to unified config)
+--- Sub-menu strictly for rules with an options array (Returns to unified config)
+--- @param rule Clackity.Rule
 function M.show_options_selector(rule)
   local opts = rule.options or {}
   ui.draw_selector(state.bufnr, state.win_id, string.upper(rule.name), opts)

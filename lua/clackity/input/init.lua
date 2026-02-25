@@ -32,6 +32,8 @@ local function smart_clear(bufnr, keys_to_check)
   end
 end
 
+--- @param bufnr number
+---@param actions Clackity.UI.LessonActions
 function M.attach_lesson(bufnr, actions)
   smart_clear(bufnr, { "<CR>", "s", "q", "m", "r" })
 
@@ -40,6 +42,7 @@ function M.attach_lesson(bufnr, actions)
   end)
 end
 
+--- @param actions Clackity.UI.LessonActions
 function M.typing_loop(actions)
   vim.cmd("redraw")
 
@@ -75,6 +78,7 @@ function M.typing_loop(actions)
   end
 end
 
+--- @param bufnr number
 function M.attach_main(bufnr)
   smart_clear(bufnr, keys)
 
@@ -88,6 +92,7 @@ function M.attach_main(bufnr)
   vim.keymap.set("n", "o", require("clackity.core").show_config_menu, opts)
 end
 
+--- @param bufnr number
 function M.attach_post_lesson(bufnr)
   smart_clear(bufnr, keys)
   smart_clear(bufnr, { "<CR>", "s", "<C-r", "<C-q>" })
@@ -102,7 +107,7 @@ end
 
 --- Reusable input handler for ANY menu that needs j/k/Enter navigation
 --- @param bufnr number
---- @param actions table Contains down, up, select, and back closures
+--- @param actions Clackity.UI.SelectorActions Contains down, up, select, and back closures
 function M.attach_selector(bufnr, actions)
   smart_clear(bufnr, keys)
   smart_clear(bufnr, { "<CR>", "<Esc>", "q" })

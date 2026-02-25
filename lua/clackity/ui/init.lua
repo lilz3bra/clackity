@@ -3,6 +3,9 @@ local M = {}
 local window = require("clackity.ui.window")
 local highlight = require("clackity.ui.highlight")
 local menu_group = vim.api.nvim_create_augroup("ClackityMenu", { clear = true })
+
+--- Creates the main floating window and buffer
+--- @return {buf: number, win: number}
 function M.create_window()
   highlight.setup()
 
@@ -18,6 +21,8 @@ function M.create_window()
   return obj
 end
 
+--- Draw the main menu
+--- @param bufnr number
 function M.draw_menu(bufnr)
   M.render_main(bufnr, {
     "",
@@ -31,6 +36,7 @@ function M.draw_menu(bufnr)
 end
 
 --- @param bufnr number
+--- @param win_id number
 --- @param title string
 --- @param opts string[]
 function M.draw_selector(bufnr, win_id, title, opts)
@@ -69,6 +75,9 @@ function M.draw_selector(bufnr, win_id, title, opts)
   })
 end
 
+--- Draw the post lesson screen
+--- @param bufnr number
+--- @param stats Clackity.stats.lesson
 function M.draw_post_lesson(bufnr, stats)
   local stats_text = {
     "",
@@ -86,6 +95,9 @@ function M.draw_post_lesson(bufnr, stats)
   M.render_main(bufnr, stats_text)
 end
 
+--- Main renderer for most screens
+--- @param buf number
+--- @param lines string[]
 function M.render_main(buf, lines)
   vim.api.nvim_set_option_value("modifiable", true, { buf = buf })
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
@@ -94,6 +106,9 @@ function M.render_main(buf, lines)
   highlight.clear(buf)
 end
 
+--- Renderer for lessons
+--- @param buf number
+--- @param words string[]
 function M.render_lines(buf, words)
   vim.api.nvim_set_option_value("modifiable", true, { buf = buf })
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, words)
@@ -106,19 +121,35 @@ function M.render_lines(buf, words)
   end
 end
 
+--- Highlight a range with ClackityCorrect
+--- @param buf number
+--- @param row number
+--- @param col_start number
+--- @param col_end number
 function M.mark_correct(buf, row, col_start, col_end)
   highlight.paint(buf, "ClackityCorrect", row, col_start, col_end)
 end
 
+--- Highlight a range with ClackityError
+--- @param buf number
+--- @param row number
+--- @param col_start number
+--- @param col_end number
 function M.mark_error(buf, row, col_start, col_end)
   highlight.paint(buf, "ClackityError", row, col_start, col_end)
 end
 
+--- Move the cursor to a specified position and trigger a redraw
+--- @param win number
+--- @param row number
+--- @param col number
 function M.move_cursor(win, row, col)
   vim.api.nvim_win_set_cursor(win, { row + 1, col })
   vim.api.nvim__redraw({ valid = false, flush = true, cursor = true })
 end
 
+--- Close the floating window and restore the original cursor
+--- @param win_id number
 function M.close(win_id)
   if win_id and vim.api.nvim_win_is_valid(win_id) then
     vim.api.nvim_win_close(win_id, true)
@@ -126,11 +157,16 @@ function M.close(win_id)
   window.restore_cursor()
 end
 
+--- Clear the highlight for the draw_selector
+--- @param bufnr number
 function M.clear_selector(bufnr)
   pcall(vim.api.nvim_clear_autocmds, { group = menu_group, buffer = bufnr })
   highlight.clear(bufnr)
 end
 
+--- Get the writtable width inside the current window
+--- @param win_id number
+--- @return number
 function M.get_content_width(win_id)
   return vim.api.nvim_win_get_width(win_id) - 4
 end

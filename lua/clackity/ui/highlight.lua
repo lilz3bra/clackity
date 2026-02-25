@@ -9,6 +9,7 @@ local default_colors = {
   selection = { link = "CursorLine", default = true },
 }
 
+--- @param opts? table User-defined highlight groups overrides
 function M.setup(opts)
   opts = opts or {}
 
@@ -22,6 +23,12 @@ function M.setup(opts)
   vim.api.nvim_set_hl(0, "ClackitySelection", sel_opts)
 end
 
+--- Paints a specific character range on a specific line
+--- @param buf number
+--- @param group string The highlight group name (e.g. "ClackityCorrect")
+--- @param line number 0-indexed line number
+--- @param col_start number 0-indexed start byte
+--- @param col_end number 0-indexed end byte
 function M.paint(buf, group, line, col_start, col_end)
   vim.hl.range(buf, M.ns_id, group, { line, col_start }, { line, col_end }, {
     priority = 200,
@@ -29,6 +36,10 @@ function M.paint(buf, group, line, col_start, col_end)
   })
 end
 
+--- Applies a highlight to an entire line (used for menu selection)
+--- @param buf number
+--- @param group string
+--- @param line_idx number
 function M.paint_line(buf, group, line_idx)
   vim.api.nvim_buf_set_extmark(buf, M.ns_id, line_idx, 0, {
     line_hl_group = group,
@@ -36,6 +47,7 @@ function M.paint_line(buf, group, line_idx)
   })
 end
 
+--- @param buf number
 function M.clear(buf)
   vim.api.nvim_buf_clear_namespace(buf, M.ns_id, 0, -1)
 end

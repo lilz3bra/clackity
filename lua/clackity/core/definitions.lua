@@ -71,3 +71,14 @@
 --- @field default any The starting fallback value (boolean, number, string, or table of strings)
 --- @field options? any[] Optional array of choices for 'select' or 'multi_select' types
 --- @field hooks? Clackity.Rule.Hooks The logic to inject into the engine
+
+--- @class Clackity.UI.SelectorActions
+--- @field select fun() Fires when the user hits Enter
+--- @field back fun() Fires when the user hits Esc or q
+
+--- @class Clackity.UI.LessonActions
+--- @field on_quit fun()
+--- @field on_menu fun()
+--- @field on_restart fun()
+--- @field on_retry fun()
+--- @field on_keystroke fun(char: string): boolean Returns true if the lesson is finished
