@@ -1,0 +1,12 @@
+return {
+  include = {
+    -- Only report on files inside your plugin's lua directory
+    "lua/clackity/.*",
+    "lua/clackity/.*/.*"
+  },
+  exclude = {
+    -- Ignore the tests themselves and the downloaded dependencies
+    "tests/.*",
+    "%.tests/.*"
+  }
+}
