@@ -11,7 +11,9 @@ local M = {
       local result = {}
       local total_words = #words
 
-      if total_words == 0 then return result end
+      if total_words == 0 or not value or value < 1 then
+        return result
+      end
 
       for _ = 1, value do
         local random_index = math.random(1, total_words)
