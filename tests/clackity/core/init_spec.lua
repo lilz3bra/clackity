@@ -5,16 +5,25 @@ local config = require("clackity.core.config")
 local db = require("clackity.database")
 
 describe("Core Orchestrator", function()
+  local original_init = db.init
+  local original_save = db.save_lesson
+  local original_close = db.close
+
   before_each(function()
-    -- Fully boot the backend before simulating a user
+    -- Intercept and neutralize database calls for the UI tests
+    db.init = function() end
+    db.save_lesson = function() end
+    db.close = function() end
+
     config.setup({})
-    db.init()
     state.reset()
   end)
 
   after_each(function()
-    db.close()
-    collectgarbage("collect")
+    -- Restore the real functions so database_spec.lua isn't affected
+    db.init = original_init
+    db.save_lesson = original_save
+    db.close = original_close
   end)
 
   it("navigates the full lifecycle without hanging", function()
@@ -38,6 +47,7 @@ describe("Core Orchestrator", function()
 
     core.post_lesson()
 
+    vim.wait(50)
     -- 5. Final cleanup
     core.quit()
 

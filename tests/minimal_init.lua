@@ -41,5 +41,4 @@ load_plugin("kkharji/sqlite.lua", "sqlite.lua")
 vim.opt.rtp:prepend(".")
 
 vim.cmd("runtime! plugin/plenary.vim")
-
-vim.env.SQLITE_DB_PATH = ":memory:"
+vim.env.SQLITE_DB_PATH = ""
