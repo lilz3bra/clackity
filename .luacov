@@ -7,6 +7,14 @@ return {
   exclude = {
     -- Ignore the tests themselves and the downloaded dependencies
     "tests/.*",
-    "%.tests/.*"
+    "%.tests/.*",
+    -- Ignore the presentation layer and orchestrator
+    "lua/clackity/init%.*",
+    -- "ui/init%.*",
+    -- "core/init%.*",
+    -- "lua/clackity/input/init.lua"
+    "core/definitions%.*",
+    "core/state%.*",
+    "healt%.*"
   }
 }
