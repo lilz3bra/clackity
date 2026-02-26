@@ -26,9 +26,11 @@ function M.load_wordlist(wordlist)
 
   if #matches == 0 then
     vim.notify("Clackity: could not find wordlist" .. wordlist, vim.log.levels.ERROR)
+    return {}
   end
 
   local absolute_path = matches[1]
+  if not absolute_path then return {} end
   local words = {}
 
   local file = io.open(absolute_path, "r")
@@ -56,8 +58,9 @@ function M.wrap_words(words, max_width)
 
   for _, word in ipairs(words) do
     if #current_line + #word + 1 > max_width then
-      current_line = current_line .. " "
-      table.insert(lines, current_line)
+      if #current_line > 0 then
+        table.insert(lines, current_line .. " ")
+      end
       current_line = word
     else
       if #current_line > 0 then
