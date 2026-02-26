@@ -17,7 +17,7 @@ local function smart_clear(bufnr, keys_to_check)
 
   local function unmap_if_exists(key)
     if map_set[key] then
-      vim.api.nvim_buf_del_keymap(bufnr, mode, key)
+      pcall(function() vim.api.nvim_buf_del_keymap(bufnr, mode, key) end)
     end
   end
 
@@ -33,7 +33,7 @@ local function smart_clear(bufnr, keys_to_check)
 end
 
 --- @param bufnr number
----@param actions Clackity.UI.LessonActions
+--- @param actions Clackity.UI.LessonActions
 function M.attach_lesson(bufnr, actions)
   smart_clear(bufnr, { "<CR>", "s", "q", "m", "r" })
 

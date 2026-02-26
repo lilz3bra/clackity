@@ -66,7 +66,6 @@ function M.run_load_hooks(words)
   for _, callback in ipairs(M.active_hooks.on_load) do
     local new_result = callback(result)
 
-    -- RUNTIME TYPE GUARD: Ensure the rule actually returned a table
     if type(new_result) ~= "table" then
       vim.notify(
         "Clackity: A wordlist rule failed (returned " .. type(new_result) .. " instead of table). Ignoring rule.",

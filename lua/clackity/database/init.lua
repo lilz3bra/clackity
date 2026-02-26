@@ -1,10 +1,14 @@
 local M = {}
 
 local sqlite = require("sqlite.db")
-local DB_PATH = vim.fn.stdpath("data") .. "/clackity.db"
+local DB_PATH = vim.env.SQLITE_DB_PATH or (vim.fn.stdpath("data") .. "/clackity.db")
 local db = nil
 
 function M.init()
+  if db and DB_PATH ~= "" then return end
+  if db then
+    db:close()
+  end
   db = sqlite({
     uri = DB_PATH,
     lessons = {
