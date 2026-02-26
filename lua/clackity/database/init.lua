@@ -62,12 +62,12 @@ end
 --- @param key_stats Clackity.database.lesson_key[]
 --- @param active_rules table<string, any>
 function M.save_lesson(data, key_stats, active_rules)
-  if not db then return end
+  if not db or not data or not key_stats then return end
 
   local ok, err = pcall(function()
     local lesson_id = db.lessons:insert(data)
 
-    ---@type Clackity.database.lesson_key[]
+    --- @type Clackity.database.lesson_key[]
     local keys_to_insert = {}
 
     for char, stats in pairs(key_stats) do
@@ -100,6 +100,13 @@ function M.save_lesson(data, key_stats, active_rules)
 
   if not ok then
     vim.notify("Clackity: DB insert error: " .. tostring(err), vim.log.levels.ERROR)
+  end
+end
+
+function M.close()
+  if db then
+    db:close()
+    db = nil
   end
 end
 
