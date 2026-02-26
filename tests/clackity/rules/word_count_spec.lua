@@ -9,11 +9,22 @@ describe("Rule: Word Count", function()
     assert.equals(3, #result)
   end)
 
-  it("returns all available words if request exceeds array size", function()
-    local input = { "apple", "banana" }
-    local result = word_count.hooks.on_load(input, 10)
+  it("returns repeated words if request exceeds array size", function()
+    local input = { "yay", "nay" }
+    local count = 5
+    local result = word_count.hooks.on_load(input, count)
 
-    assert.equals(2, #result)
+    -- It should return exactly 5 words, even though we only gave it 2
+    assert.equals(5, #result)
+
+    -- Verify all returned words actually exist in the input list
+    for _, word in ipairs(result) do
+      local found = false
+      for _, input_word in ipairs(input) do
+        if word == input_word then found = true end
+      end
+      assert.is_true(found)
+    end
   end)
 
   it("returns an empty table if the input is empty", function()
