@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.1.0](https://github.com/lilz3bra/clackity/compare/v2.0.0...v2.1.0) (2026-04-18)
+
+
+### Features
+
+* added runtime type guard for run_load_hooks ([6398508](https://github.com/lilz3bra/clackity/commit/6398508199fa34370fa66a01647b0f2d0f88e103))
+
+
+### Bug Fixes
+
+* added close function and safety guard to save_lesson ([8bbe99f](https://github.com/lilz3bra/clackity/commit/8bbe99f64576b68b01c81002dbbca10d5e70c011))
+* added safety check for invalid values in the on_load hook ([5778fe1](https://github.com/lilz3bra/clackity/commit/5778fe1a32989c8c22f2d7692cdd08f91ffe14b1))
+* added safety checks for absolute path. correctly insert end-of-line space ([540deac](https://github.com/lilz3bra/clackity/commit/540deac0a29163a07641fcf630901683d7952b8d))
+
 ## [2.0.0](https://github.com/lilz3bra/clackity/compare/v1.1.0...v2.0.0) (2026-02-24)
 
 
