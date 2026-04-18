@@ -77,7 +77,7 @@ end, {})
 
     [x] Results persistence
 
-    [ ] Wordlists and list config
+    [x] Wordlists and list config
 
     [ ] Rules (some)
         [ ] Stop on error
